@@ -27,6 +27,7 @@ dill
 docutils
 entrypoints
 filelock
+flask
 fonttools
 frozenlist
 gunicorn
