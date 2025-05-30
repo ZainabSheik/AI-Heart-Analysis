@@ -100,3 +100,4 @@ webencodings
 websocket-client
 widgetsnbextension
 zipp
+tensorflow
