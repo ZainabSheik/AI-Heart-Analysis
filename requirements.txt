@@ -11,7 +11,6 @@ async-timeout
 attrs
 babel
 backcall
-backports.zoneinfo
 basemap
 bleach
 cachetools
