@@ -291,7 +291,7 @@ def report():
         current_year=current_year
     )
 
-
+app.secret_key = 'F2ukCAi9kk'
 if __name__ == '__main__':
-    app.secret_key = 'F2ukCAi9kk'  # Required for session to work
+      # Required for session to work
     app.run(debug=True)
