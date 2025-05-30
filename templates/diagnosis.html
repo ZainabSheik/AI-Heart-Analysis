@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Health Diagnostic Center</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='diagnosis-style.css') }}" media="screen">
+</head>
+</head>
+<body>
+  <div class="full-background">
+    <div class="container py-5">
+      <h1 class="text-center text-dark mb-5">AI Heart Diagnosis</h1>
+      <form action="/diagnose" method="post" enctype="multipart/form-data">
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="name" placeholder="Full Name" required>
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" name="age" placeholder="Age" required>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control" name="sex" required>
+              <option selected disabled>Sex</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <select class="form-control" name="cp_type" required>
+              <option selected disabled>Chest Pain Type</option>
+              <option value="ATA">ATA</option>
+              <option value="NAP">NAP</option>
+              <option value="ASY">ASY</option>
+              <option value="Other">Other</option>
+              <option value="Unknown">I don’t know</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" name="rest_bp" placeholder="Resting BP" required>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control" name="cholesterol" required>
+              <option selected disabled>Cholesterol</option>
+              <option value="0">Below 200</option>
+              <option value="1">200-239</option>
+              <option value="2">240 and above</option>
+              <option value="Unknown">I don’t know</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <select class="form-control" name="fasting_bs" required>
+              <option selected disabled>Fasting BS</option>
+              <option value="1">1 (Yes)</option>
+              <option value="0">0 (No)</option>
+              <option value="Unknown">I don’t know</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control" name="ecg" required>
+              <option selected disabled>Resting ECG</option>
+              <option value="Normal">Normal</option>
+              <option value="ST">ST</option>
+              <option value="LVH">LVH</option>
+              <option value="Unknown">I don’t know</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" name="max_hr" placeholder="Max Heart Rate" required>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <select class="form-control" name="exercise_angina" required>
+              <option selected disabled>Exercise Angina</option>
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" name="oldpeak" placeholder="Oldpeak (e.g., 1.0)" required>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control" name="st_slope" required>
+              <option selected disabled>ST Slope</option>
+              <option value="Up">Up</option>
+              <option value="Flat">Flat</option>
+              <option value="Down">Down</option>
+              <option value="Unknown">I don’t know</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="ecg_upload" class="form-label text-dark">Upload ECG Signal</label>
+          <input type="file" class="form-control" name="ecg_upload" id="ecg_upload" accept=".csv" required>
+          <span id="ecg-warning" style="color: red; display: none;">Warning: Only CSV files are allowed for ECG!</span>
+        </div>
+        <div class="mb-4">
+          <label for="xray_upload" class="form-label text-dark">Upload Chest X-ray</label>
+          <input type="file" class="form-control" name="xray_upload" id="xray_upload" required>
+        </div>
+        
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary px-5 py-2">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+</body>
+</html>
+

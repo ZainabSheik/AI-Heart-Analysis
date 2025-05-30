@@ -1,0 +1,62 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100%;
+}
+
+.full-background {
+  background: url("/static/images/photo-1576091160550-2173dba999ef.jpg") no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Form Container */
+.container {
+  background-color: rgba(244, 233, 233, 0.8);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 900px;
+}
+
+h1 {
+  color: #272121; /* Replace with any color you want */
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Optional for a subtle pop */
+}
+
+
+.form-control, select {
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+input[type="file"] {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.btn-primary {
+  border-radius: 25px;
+  padding: 10px 30px;
+  font-size: 1.1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+  
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-label {
+  font-size: 1.1rem;
+  color: #000;
+}

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medical Diagnostic Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #2c3e50;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 3rem auto;
+      background: #ffffff;
+      padding: 3rem 4rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #2980b9;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+
+    header .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #2980b9;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    header .report-date {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+
+    .patient-info {
+      display: flex;
+      justify-content: flex-start;
+      gap: 3rem;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      color: #34495e;
+      font-weight: 600;
+      user-select: text;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 2.3rem;
+      color: #34495e;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.04em;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 0.25rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    section h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #2980b9;
+      border-left: 4px solid #2980b9;
+      padding-left: 0.75rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .result-box {
+      background-color: #ecf0f1;
+      border-left: 5px solid #3498db;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1.15rem;
+      color: #2c3e50;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(52, 152, 219, 0.15);
+      margin-bottom: 1rem;
+      user-select: text;
+    }
+
+    ul.findings-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    ul.findings-list li {
+      background: #fff;
+      border: 1px solid #d1d8e0;
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      font-weight: 500;
+      color: #34495e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: text;
+    }
+
+    ul.findings-list li .score-badge {
+      background-color: #2980b9;
+      color: white;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 0.15rem 0.8rem;
+      font-size: 0.9rem;
+      min-width: 50px;
+      text-align: center;
+      user-select: none;
+    }
+
+    ul.suggestions-list {
+      padding-left: 1rem;
+      color: #2c3e50;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      user-select: text;
+    }
+
+    ul.suggestions-list li {
+      margin-bottom: 0.9rem;
+      padding-left: 0.3rem;
+      position: relative;
+    }
+
+    ul.suggestions-list li::before {
+      content: "✔";
+      color: #27ae60;
+      font-weight: 700;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #95a5a6;
+      border-top: 1px solid #dcdde1;
+      padding-top: 1.25rem;
+      user-select: none;
+    }
+
+    @media(max-width: 700px) {
+      .container {
+        padding: 2rem 1.5rem;
+        margin: 1.5rem;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header .report-date {
+        margin-top: 0.5rem;
+      }
+      .patient-info {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">MediCare Diagnostics</div>
+      <div class="report-date">{{ current_date or "Date: --/--/----" }}</div>
+    </header>
+
+    <!-- Patient Info -->
+    <div class="patient-info">
+      <div id="patient-name-display"><strong>Patient Name:</strong> {{ patient_name or "N/A" }}</div>
+      <div><strong>Age:</strong> {{ patient_age or "N/A" }} years</div>
+    </div>
+
+    <h1>Medical Diagnostic Report</h1>
+
+    <section>
+      <h2>Heart Disease Analysis</h2>
+      <div class="result-box">{{ heart_disease }}</div>
+    </section>
+
+    <section>
+      <h2>ECG (Electrocardiogram) Interpretation</h2>
+      <div class="result-box">{{ ecg }}</div>
+    </section>
+
+    <section>
+      <h2>CHEST X-ray Analysis</h2>
+
+      {% if xray and xray[0] != "No X-ray uploaded" %}
+        {% set findings = [] %}
+        {% for finding in xray %}
+          {% set parts = finding.split(":") %}
+          {% set label = parts[0].strip() %}
+          {% set score = (parts[1]|float) if parts|length > 1 else 0.0 %}
+          {% if score > 0.85 %}
+            {% set _ = findings.append((label, score)) %}
+
+          {% endif %}
+        {% endfor %}
+
+        {% if findings %}
+          <ul class="findings-list">
+            {% for label, score in findings %}
+              <li><strong>{{ label }}</strong>  <span class="score-badge">{{ "%.2f"|format(score) }}</span></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p><strong>✅ No abnormalities detected. This X-ray appears healthy.</strong></p>
+        {% endif %}
+
+      {% else %}
+        <p>No chest X-ray data available.</p>
+      {% endif %}
+    </section>
+
+    <section>
+      <h2>Doctor's Suggestions & Recommendations</h2>
+      <ul class="suggestions-list">
+
+        {% if findings %}
+          {% for label, score in findings %}
+            {% if label == "Pneumonia" %}
+              {% if score > 0.65 %}
+                <li><strong>Pneumonia:</strong> High likelihood. Visit a doctor promptly for antibiotics and chest X-ray follow-up.</li>
+              {% else %}
+                <li><strong>Pneumonia:</strong> Mild suspicion. Stay hydrated, monitor symptoms, and maintain hygiene.</li>
+              {% endif %}
+            {% elif label == "Emphysema" %}
+              {% if score > 0.65 %}
+                <li><strong>Emphysema:</strong> High risk. Consult a pulmonologist and avoid pollutants.</li>
+              {% else %}
+                <li><strong>Emphysema:</strong> Mild risk. Avoid smoking and exposure to pollutants.</li>
+              {% endif %}
+            {% elif label == "Consolidation" %}
+              {% if score > 0.65 %}
+                <li><strong>Consolidation:</strong> Likely present. Might indicate infection. Seek medical evaluation.</li>
+              {% else %}
+                <li><strong>Consolidation:</strong> Low chance. Monitor symptoms and seek advice if needed.</li>
+              {% endif %}
+            {% elif label == "Effusion" %}
+              <li><strong>Effusion:</strong> Fluid buildup suspected. Consult a radiologist or pulmonologist for further investigation.</li>
+            {% elif label == "Mass" %}
+              <li><strong>Mass:</strong> Potential abnormal tissue detected. Recommend CT scan and oncology consult.</li>
+            {% elif label == "Atelectasis" %}
+              <li><strong>Atelectasis:</strong> Possible collapsed lung area. Deep breathing exercises and medical follow-up advised.</li>
+            {% elif label == "Edema" %}
+              <li><strong>Edema:</strong> Fluid in lungs detected. Cardiac evaluation and diuretics may be recommended.</li>
+            {% elif label == "Infiltration" %}
+              <li><strong>Infiltration:</strong> Possible infection or inflammation. Consider further imaging and lab tests.</li>
+            {% elif label == "Hernia" %}
+              <li><strong>Hernia:</strong> Suspected. May require surgical consultation based on symptoms.</li>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <li>Your X-ray appears healthy. Maintain a healthy lifestyle with regular exercise and balanced nutrition.</li>
+          <li>Schedule routine health check-ups and stay up to date on vaccinations.</li>
+          <li>Stay hydrated, avoid smoking, and maintain proper hygiene.</li>
+        {% endif %}
+
+        {# Additional static/dynamic suggestions #}
+        {% for suggestion in suggestions %}
+          <li>{{ suggestion }}</li>
+        {% endfor %}
+
+      </ul>
+    </section>
+    <button id="download-report-btn" style="display: block; margin: 0 auto 1.5rem auto; padding:0.6rem 1.2rem; font-size:1rem; cursor:pointer;">
+      Download Full Report as PDF
+    </button>
+
+
+
+</body>
+
+<script>
+  const { jsPDF } = window.jspdf;
+
+  document.getElementById('download-report-btn').addEventListener('click', function () {
+    const container = document.querySelector('.container');
+
+    // Get patient name from the display
+    const nameElement = document.getElementById('patient-name-display');
+    let patientName = 'Medical_Diagnostic_Report';
+
+    if (nameElement) {
+      const rawText = nameElement.innerText || '';
+      const extractedName = rawText.replace('Patient Name:', '').trim();
+      if (extractedName) {
+        // Replace spaces with underscores for filename
+        patientName = extractedName.replace(/\s+/g, '_') + '_Report';
+      }
+    }
+
+    html2canvas(container, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'pt', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${patientName}.pdf`);
+    });
+  });
+</script>
+
+
+
+<footer>
+  <p><em>Note: This report is AI-assisted and for informational purposes only. Always consult a licensed healthcare professional for diagnosis and treatment.</em></p>
+  <p>MediCare Diagnostics &copy; {{ current_year or "2025" }}</p>
+</footer>
